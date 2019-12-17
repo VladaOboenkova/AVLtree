@@ -31,8 +31,37 @@ public class AVLTree<Key extends Comparable<Key>, Value>implements Map{
         else return node.size;
     }
 
+    @SuppressWarnings("unchecked")
+    private int balanceFactor(Node node) {
+        return height(node.left) - height(node.right);
+    }
+
     public int height() {
         return height(root);
+    }
+
+    @SuppressWarnings("unchecked")
+    private Node rightRotation(Node firstNode) {
+        Node secondNode = firstNode.left;
+        firstNode.left = secondNode.right;
+        secondNode.right = firstNode;
+        secondNode.size = firstNode.size;
+        firstNode.size = 1 + size(firstNode.left) + size(firstNode.right);
+        firstNode.height = 1 + Math.max(height(firstNode.left), height(firstNode.right));
+        secondNode.height = 1 + Math.max(height(secondNode.left), height(secondNode.right));
+        return secondNode;
+    }
+
+    @SuppressWarnings("unchecked")
+    private Node leftRotation(Node firstNode) {
+        Node secondNode = firstNode.right;
+        firstNode.right = secondNode.left;
+        secondNode.left = firstNode;
+        secondNode.size = firstNode.size;
+        firstNode.size = 1 + size(firstNode.left) + size(firstNode.right);
+        firstNode.height = 1 + Math.max(height(firstNode.left), height(firstNode.right));
+        secondNode.height = 1 + Math.max(height(secondNode.left), height(secondNode.right));
+        return secondNode;
     }
 
     @SuppressWarnings("unchecked")
@@ -70,13 +99,13 @@ public class AVLTree<Key extends Comparable<Key>, Value>implements Map{
     }
 
     @SuppressWarnings("unchecked")
-    public Object put(Object key, Object value) { // проверка баланса(!)
+    public Object put(Object key, Object value) {
         if (key == null) throw new IllegalArgumentException();
         return root = put(root, (Key) key, (Value) value);
     }
 
     @SuppressWarnings("unchecked")
-    private Node put(Node node, Key key, Value value) {
+    private Node put(Node node, Key key, Value value) { // проверка баланса(!)
         if (node == null) return new Node(key, value, 1);
         int compare = key.compareTo((Key) node.key);
         if (compare < 0) node.left  = put(node.left,  key, value);
@@ -150,12 +179,12 @@ public class AVLTree<Key extends Comparable<Key>, Value>implements Map{
         return node;
     }
 
-    public void putAll(Map m) {
-
-    }
-
     public void clear() {
         root = null;
+    }
+
+    public void putAll(Map m) {
+
     }
 
     public Set keySet() {
