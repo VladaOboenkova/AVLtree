@@ -36,10 +36,6 @@ public class AVLTree<Key extends Comparable<Key>, Value>implements Map{
         return height(node.left) - height(node.right);
     }
 
-    public int height() {
-        return height(root);
-    }
-
     @SuppressWarnings("unchecked")
     private Node rightRotation(Node firstNode) {
         Node secondNode = firstNode.left;
@@ -62,6 +58,10 @@ public class AVLTree<Key extends Comparable<Key>, Value>implements Map{
         firstNode.height = 1 + Math.max(height(firstNode.left), height(firstNode.right));
         secondNode.height = 1 + Math.max(height(secondNode.left), height(secondNode.right));
         return secondNode;
+    }
+
+    public int height() {
+        return height(root);
     }
 
     @SuppressWarnings("unchecked")
