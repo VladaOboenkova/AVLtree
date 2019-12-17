@@ -34,6 +34,8 @@ public class AVLTree<Key extends Comparable<Key>, Value>implements Map{
     public int height() {
         return height(root);
     }
+
+    @SuppressWarnings("unchecked")
     private int height(Node node) {
         if (node == null) return -1;
         return 1 + Math.max(height(node.left), height(node.right));
@@ -52,10 +54,12 @@ public class AVLTree<Key extends Comparable<Key>, Value>implements Map{
         return false;
     }
 
+    @SuppressWarnings("unchecked")
     public Object get(Object key) {
         return get(root, (Key) key);
     }
 
+    @SuppressWarnings("unchecked")
     private Object get(Node node, Key key) {
         if (key == null) throw new IllegalArgumentException();
         if (node == null) return null;
@@ -65,11 +69,13 @@ public class AVLTree<Key extends Comparable<Key>, Value>implements Map{
         else return node.value;
     }
 
+    @SuppressWarnings("unchecked")
     public Object put(Object key, Object value) { // проверка баланса(!)
         if (key == null) throw new IllegalArgumentException();
         return root = put(root, (Key) key, (Value) value);
     }
 
+    @SuppressWarnings("unchecked")
     private Node put(Node node, Key key, Value value) {
         if (node == null) return new Node(key, value, 1);
         int compare = key.compareTo((Key) node.key);
@@ -80,14 +86,15 @@ public class AVLTree<Key extends Comparable<Key>, Value>implements Map{
         return node;
     }
 
+    @SuppressWarnings("unchecked")
     public Object remove(Object key) {
         if (key == null) throw new IllegalArgumentException();
         return root = delete(root, (Key) key);
     }
 
+    @SuppressWarnings("unchecked")
     private Node delete(Node node, Key key) {
         if (node == null) return null;
-
         int compare = key.compareTo((Key) node.key);
         if  (compare < 0) node.left  = delete(node.left,  key);
         else if (compare > 0) node.right = delete(node.right, key);
@@ -103,21 +110,25 @@ public class AVLTree<Key extends Comparable<Key>, Value>implements Map{
         return node;
     }
 
+    @SuppressWarnings("unchecked")
     public Key min() {
         if (isEmpty()) throw new NoSuchElementException();
         return (Key) min(root).key;
     }
 
+    @SuppressWarnings("unchecked")
     private Node min(Node node) {
         if (node.left == null) return node;
         else return min(node.left);
     }
 
+    @SuppressWarnings("unchecked")
     public void deleteMin() {
         if (isEmpty()) throw new NoSuchElementException();
         root = deleteMin(root);
     }
 
+    @SuppressWarnings("unchecked")
     private Node deleteMin(Node node) {
         if (node.left == null) return node.right;
         node.left = deleteMin(node.left);
@@ -125,11 +136,13 @@ public class AVLTree<Key extends Comparable<Key>, Value>implements Map{
         return node;
     }
 
+    @SuppressWarnings("unchecked")
     public void deleteMax() {
         if (isEmpty()) throw new NoSuchElementException();
         root = deleteMax(root);
     }
 
+    @SuppressWarnings("unchecked")
     private Node deleteMax(Node node) {
         if (node.right == null) return node.left;
         node.right = deleteMax(node.right);
